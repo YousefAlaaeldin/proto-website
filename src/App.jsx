@@ -100,6 +100,11 @@ const skillsByDomain = [
       'YOLOv8',
       'GANs',
       'Jupyter Notebook',
+      'TensorFlow',
+      'PyTorch',
+      'Scikit-learn',
+      'Data Preprocessing',
+      'Model Evaluation',
     ],
   },
   {
@@ -110,6 +115,9 @@ const skillsByDomain = [
       'Firmware Development',
       'PCB Design',
       'Schematic Design',
+      'C/C++',
+      'Hardware Debugging',
+      'Circuit Design',
     ],
   },
   {
@@ -119,6 +127,8 @@ const skillsByDomain = [
       'Godot',
       'GDScript',
       'Gameplay Systems',
+      'Level Design',
+      'Game Logic',
     ],
   },
   {
@@ -129,6 +139,8 @@ const skillsByDomain = [
       'Java',
       'MVVM Architecture',
       'Frontend Development',
+      'HTML/CSS',
+      'Tailwind CSS',
     ],
   },
 ]
@@ -452,13 +464,13 @@ function App() {
             UPCOMING MILESTONE
           </div>
           <p className="text-base uppercase tracking-widest text-slate-300/90">
-            Current focus
+            Current Interests
           </p>
           <h2 className="mt-3 font-['Syne'] text-3xl leading-tight">
-            Securing the CEH
+            Cybersecurity, AI/ML
           </h2>
           <p className="mt-4 text-lg text-slate-300">
-            gain cybersecurity knowledge to further my ability in the field
+              I'm diving deep into cybersecurity concepts, exploring implemntations of AI/ML advancements, and building projects that blend these domains. Excited to share my journey and creations in this space.
           </p>
         </motion.div>
       </motion.section>
