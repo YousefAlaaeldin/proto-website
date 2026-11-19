@@ -1,20 +1,9 @@
-<<<<<<< HEAD
-# React + Vite
+# The Tech Polymath
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Source for [thetechpolymath.net](https://thetechpolymath.net), Yousef Abdou's portfolio.
 
-Currently, two official plugins are available:
+React 19 + Vite + Tailwind 4, animated with framer-motion and GSAP, plus a canvas PCB-trace background.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# proto-website
->>>>>>> 331b049b8a5af631f2d1f94f2fe4d53849ead755
+- **Edit content:** everything (experience, projects, publications, skills) lives in [`src/content.js`](src/content.js).
+- **Run locally:** `npm install && npm run dev`
+- **Build:** `npm run build`
