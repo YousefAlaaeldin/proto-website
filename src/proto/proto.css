@@ -316,11 +316,6 @@ html.has-reticle button {
   height: 300vh;
 }
 .hero__stage {
-  --draw-i: 0;
-  --draw-b: 0;
-  --draw-f: 0;
-  --vias: 0;
-  --parts: 0;
   --rise: 0;
   --exit: 0;
   position: sticky;
@@ -331,52 +326,15 @@ html.has-reticle button {
 .hero__sky {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 70% 52%, rgba(79, 227, 240, 0.16), transparent 70%),
-    radial-gradient(ellipse 40% 30% at 15% 20%, rgba(255, 42, 109, 0.08), transparent 70%);
+  background: radial-gradient(ellipse 40% 30% at 15% 20%, rgba(255, 42, 109, 0.08), transparent 70%);
 }
-.hero__floor-wrap {
+.hero__terrain {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 68%;
-  bottom: 0;
-  perspective: 420px;
-  perspective-origin: 50% 0%;
-  overflow: hidden;
-}
-.hero__floor {
-  position: absolute;
-  left: -50%;
-  right: -50%;
-  top: 0;
-  height: 260%;
-  transform: rotateX(68deg);
-  transform-origin: 50% 0%;
-  background-image:
-    linear-gradient(rgba(79, 227, 240, 0.55) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79, 227, 240, 0.4) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 55%, transparent 100%);
-  opacity: 0;
-  transition: opacity 1.2s ease 0.2s;
-}
-.hero__stage.is-on .hero__floor {
-  opacity: 1;
-}
-.hero__horizon {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 68%;
-  height: 2px;
-  background: var(--cyan);
-  box-shadow: 0 0 30px 6px rgba(79, 227, 240, 0.55);
-  transform: scaleX(0);
-  transition: transform 1.1s cubic-bezier(0.7, 0, 0.2, 1);
-}
-.hero__stage.is-on .hero__horizon {
-  transform: scaleX(1);
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: calc(1 - var(--exit) * 0.9);
 }
 
 .hero__copy {
@@ -472,99 +430,6 @@ html.has-reticle button {
   color: var(--muted);
 }
 
-.hero__board {
-  position: absolute;
-  right: clamp(16px, 5vw, 80px);
-  top: 46%;
-  width: min(760px, 50vw);
-  margin: 0;
-  z-index: 1;
-  perspective: 900px;
-  transform: translateY(calc(-50% - var(--rise) * 30px));
-  opacity: calc(1 - var(--exit) * 0.85);
-}
-.hero__board svg {
-  display: block;
-  width: 100%;
-  overflow: visible;
-  transform: rotateX(calc(52deg - var(--rise) * 44deg)) rotateZ(calc(-6deg + var(--rise) * 6deg)) scale(calc(0.86 + var(--rise) * 0.14));
-  transform-origin: 50% 70%;
-}
-.pcb__edge {
-  fill: rgba(10, 18, 32, calc(0.2 + var(--parts) * 0.6));
-  stroke: var(--cyan);
-  stroke-width: 0.35;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--draw-i));
-}
-.pcb__trace {
-  fill: none;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-}
-.pcb__trace--in {
-  stroke: var(--amber);
-  stroke-width: 0.28;
-  opacity: 0.55;
-  stroke-dashoffset: calc(1 - var(--draw-i));
-}
-.pcb__trace--back {
-  stroke: var(--magenta);
-  stroke-width: 0.3;
-  opacity: 0.6;
-  stroke-dashoffset: calc(1 - var(--draw-b));
-}
-.pcb__trace--front {
-  stroke: var(--cyan);
-  stroke-width: 0.34;
-  stroke-dashoffset: calc(1 - var(--draw-f));
-  filter: drop-shadow(0 0 0.6px var(--cyan));
-}
-.pcb__vias circle {
-  fill: var(--bg);
-  stroke: var(--ink);
-  stroke-width: 0.18;
-  opacity: clamp(0, calc((var(--vias) - var(--t)) * 6), 1);
-}
-.pcb__parts rect {
-  fill: #13233a;
-  stroke: var(--muted);
-  stroke-width: 0.12;
-  opacity: clamp(0, calc((var(--parts) * 1.4 - var(--t) * 0.4) * 2), 1);
-}
-.pcb__parts rect.is-top {
-  fill: #1b3350;
-  stroke: var(--cyan);
-}
-.pcb__mcu circle {
-  fill: var(--cyan);
-}
-.pcb__mcu .pcb__mcu-ring {
-  fill: none;
-  stroke: var(--cyan);
-  stroke-width: 0.3;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: mcu-ping 2.4s ease-out infinite;
-}
-@keyframes mcu-ping {
-  from {
-    transform: scale(0.4);
-    opacity: 1;
-  }
-  to {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-.hero__caption {
-  margin: 0 0 14px;
-  text-align: right;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--cyan);
-  min-height: 1.4em;
-}
 .hero__cue {
   position: absolute;
   left: 50%;
@@ -981,17 +846,6 @@ html.has-reticle button {
     flex: 0 0 72vw;
     scroll-snap-align: start;
   }
-  .hero__board {
-    left: 16px;
-    right: 16px;
-    top: auto;
-    bottom: calc(32% + 8px);
-    width: auto;
-    transform: none;
-  }
-  .hero__caption {
-    text-align: left;
-  }
   .stream__viewport {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -1005,7 +859,8 @@ html.has-reticle button {
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .wipe {
+  .wipe,
+  .hero__cue {
     display: none;
   }
   .hero {
@@ -1022,7 +877,6 @@ html.has-reticle button {
   .card:hover {
     transform: none;
   }
-  .pcb__mcu-ring,
   .outro__cursor,
   .card:hover .card__sweep {
     animation: none;

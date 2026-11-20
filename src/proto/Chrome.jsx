@@ -129,7 +129,7 @@ export function NavBar() {
 }
 
 const RAIL = [
-  { id: 'top', label: 'Board' },
+  { id: 'top', label: 'Home' },
   { id: 'projects', label: 'Work' },
   { id: 'experience', label: 'Experience' },
   { id: 'research', label: 'Research' },
