@@ -49,11 +49,15 @@ export default function Boot({ onDone }) {
         .to('.boot__half--bottom', { yPercent: 100, duration: 0.8, ease: 'expo.inOut' }, '<')
     }, root)
 
+    // If animation frames stall (background tab, hidden window), never trap the page behind the intro.
+    const safety = setTimeout(finish, 6000)
+
     const onKey = (event) => {
       if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') finish()
     }
     window.addEventListener('keydown', onKey)
     return () => {
+      clearTimeout(safety)
       cancelScramble()
       ctx.revert()
       window.removeEventListener('keydown', onKey)

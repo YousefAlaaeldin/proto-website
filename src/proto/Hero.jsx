@@ -89,7 +89,7 @@ export default function Hero({ booted, onPickField }) {
 
         <div className="hero__copy">
           <p className="hero__kicker">
-            <Scramble text="AI engineer in Abu Dhabi" play={introOn} delay={200} />
+            <Scramble text="Computer &amp; ML engineer" play={introOn} delay={200} />
           </p>
           <h1 className="hero__title">
             <Scramble text="The Tech" play={introOn} duration={700} delay={350} />

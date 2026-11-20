@@ -5,10 +5,10 @@ const GH = 'https://github.com/YousefAlaaeldin'
 export const navItems = ['about', 'experience', 'projects', 'research', 'skills', 'contact']
 
 export const hero = {
-  tag: 'AI ENGINEER · TECH PORTFOLIO',
+  tag: 'COMPUTER & ML ENGINEER · TECH PORTFOLIO',
   title: 'THE TECH POLYMATH',
   intro:
-    "I'm Yousef Abdou, an AI engineer who works across the whole stack: training and compressing vision and speech models, wiring LLM agents into real systems, designing the PCBs they run on, and testing quant models with the same rigour.",
+    "I'm Yousef Abdou, a computer and ML engineer who works across the whole stack: training and compressing vision and speech models, wiring LLM agents into real systems, designing the PCBs they run on, and testing quant models with the same rigour.",
   stats: [
     { value: 'Patent', label: 'U.S. granted · Smart Vent' },
     { value: '0.91 F1', label: 'RF-DETR traffic detection' },
