@@ -44,7 +44,7 @@ export const experience = [
     place: 'Remote (UAE – Egypt)',
     points: [
       'Smart Vent (U.S. Patent granted, App. No. 18/231,603, "Distributed Zone Control System"): built the embedded system and PCB from scratch, plus a 97%-accuracy on-device voice model, and validated the single-vent prototype.',
-      'Stage 2: a multi-vent prototype on a new 4-layer ESP32-C6 board with snap-in sensor pucks, designed as code (SKiDL → scripted checks → SPICE → KiCad), plus an edge keyword-spotting pipeline trained on semi-synthesized data.',
+      'Stage 2: a multi-vent prototype with snap-in sensor modules, designed as code (Python circuit, automated checks, SPICE simulation, KiCad layout), plus an edge keyword-spotting pipeline trained on semi-synthesized data.',
       'Freelance software and hardware projects, including a production bilingual e-commerce store.',
     ],
     tags: ['ESP32', 'PCB Design', 'KiCad', 'Keyword Spotting', 'TinyML'],
@@ -81,9 +81,9 @@ export const featuredProjects = [
   {
     title: 'Smart Vent v2',
     summary:
-      'A connected HVAC vent built around a 4-layer ESP32-C6 board and snap-in sensor pucks. The circuit is written in Python, checked by about 30 scripts against datasheet evidence, simulated in SPICE and laid out in KiCad.',
-    highlight: 'U.S. patent granted · 288-run hot-plug SPICE sweep',
-    stack: 'SKiDL, KiCad 10, SPICE, ESP-IDF',
+      'A connected HVAC vent that controls airflow room by room, with snap-in sensor modules. The boards are designed as code: the circuit is written in Python, checked automatically against datasheets, simulated in SPICE and laid out in KiCad.',
+    highlight: 'U.S. patent granted · client project',
+    stack: 'SKiDL, KiCad, SPICE, ESP-IDF',
     link: `${GH}/smart-vent-v2`,
     category: 'Hardware',
   },
