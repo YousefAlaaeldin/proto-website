@@ -37,12 +37,44 @@
 }
 
 /* ---------- experience ---------- */
+/* ---------- lower-page backdrop (GridField) ---------- */
+.deck {
+  position: relative;
+}
+.deck__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Ease the lattice in under Selected work instead of starting on a hard edge. */
+.deck__bg::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 240px;
+  z-index: 1;
+  background: linear-gradient(var(--bg), transparent);
+}
+.deck__canvas {
+  position: sticky;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  mask-image: radial-gradient(ellipse 120% 95% at 50% 50%, #000 55%, transparent 100%);
+}
+.deck .outro {
+  position: relative;
+  z-index: 1;
+}
+
 .xp,
 .res,
 .skills {
   position: relative;
   z-index: 1;
-  background: var(--bg);
   padding: 140px clamp(16px, 6vw, 96px) 40px;
 }
 .xp__track {

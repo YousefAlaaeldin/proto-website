@@ -11,6 +11,7 @@ import Experience from './Experience'
 import Research from './Research'
 import Skills from './Skills'
 import Outro from './Outro'
+import GridField from './GridField'
 import { Cursor, NavBar, Rail } from './Chrome'
 import { reducedMotion, scrollState, scrollToTarget } from './motion'
 import './proto.css'
@@ -93,10 +94,13 @@ export default function Proto() {
         <Hero booted={booted} onPickField={pickField} />
         <DataWipe label="selected work" />
         <ProjectStream field={field} onField={setField} />
-        <Experience />
-        <Research />
-        <Skills />
-        <Outro onReplay={replay} />
+        <div className="deck">
+          <GridField />
+          <Experience />
+          <Research />
+          <Skills />
+          <Outro onReplay={replay} />
+        </div>
       </main>
     </div>
   )
