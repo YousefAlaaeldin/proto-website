@@ -127,14 +127,14 @@ export default function Hero({ booted, onPickField }) {
             <path className="pcb__trace pcb__trace--back" d={pcb.traces['B.Cu']} pathLength="1" />
             <path className="pcb__trace pcb__trace--front" d={pcb.traces['F.Cu']} pathLength="1" />
             <g className="pcb__vias">
-              {pcb.vias.map(([x, y, t]) => (
-                <circle key={`${x}-${y}`} cx={x} cy={y} r="0.42" style={{ '--t': t }} />
+              {pcb.vias.map(([x, y, t], i) => (
+                <circle key={i} cx={x} cy={y} r="0.42" style={{ '--t': t }} />
               ))}
             </g>
             <g className="pcb__parts">
-              {parts.map((p) => (
+              {parts.map((p, i) => (
                 <rect
-                  key={`${p.x}-${p.y}`}
+                  key={i}
                   x={p.x - p.w / 2}
                   y={p.y - p.h / 2}
                   width={p.w}

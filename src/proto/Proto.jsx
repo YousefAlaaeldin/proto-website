@@ -7,10 +7,14 @@ import Boot from './Boot'
 import Hero from './Hero'
 import DataWipe from './DataWipe'
 import ProjectStream from './ProjectStream'
+import Experience from './Experience'
+import Research from './Research'
+import Skills from './Skills'
 import Outro from './Outro'
 import { Cursor, NavBar, Rail } from './Chrome'
 import { reducedMotion, scrollState, scrollToTarget } from './motion'
 import './proto.css'
+import './sections.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -89,6 +93,9 @@ export default function Proto() {
         <Hero booted={booted} onPickField={pickField} />
         <DataWipe label="selected work" />
         <ProjectStream field={field} onField={setField} />
+        <Experience />
+        <Research />
+        <Skills />
         <Outro onReplay={replay} />
       </main>
     </div>

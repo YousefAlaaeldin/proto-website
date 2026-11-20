@@ -39,13 +39,12 @@ export default function Outro({ onReplay }) {
         </div>
       </div>
 
-      <aside className="outro__next" aria-label="Prototype scope">
-        <p className="outro__next-title">This prototype covers the boot, the board, the wipe and the project stream.</p>
-        <p>In the full build: a pinned experience HUD with counting metrics, papers that decrypt as they scroll in, and skills as a six-core chip die.</p>
-        <button type="button" className="btn" onClick={onReplay}>
+      <footer className="foot">
+        <span>© {new Date().getFullYear()} Yousef Abdou · The Tech Polymath</span>
+        <button type="button" className="foot__link" onClick={onReplay}>
           Replay the intro
         </button>
-      </aside>
+      </footer>
     </section>
   )
 }

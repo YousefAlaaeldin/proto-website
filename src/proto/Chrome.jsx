@@ -58,6 +58,14 @@ export function Cursor() {
   )
 }
 
+const NAV = [
+  ['projects', 'Work', false],
+  ['experience', 'Experience', true],
+  ['research', 'Research', true],
+  ['skills', 'Skills', true],
+  ['contact', 'Contact', false],
+]
+
 // Top bar with a live oscilloscope trace whose amplitude follows scroll speed.
 export function NavBar() {
   const canvas = useRef(null)
@@ -110,13 +118,11 @@ export function NavBar() {
       </a>
       <canvas ref={canvas} className="nav__scope" style={{ width: 120, height: 28 }} aria-hidden="true" />
       <nav aria-label="Sections" className="nav__links">
-        <a href="#projects" onClick={go('#projects')}>
-          Work
-        </a>
-        <a href="#contact" onClick={go('#contact')}>
-          Contact
-        </a>
-        <a href="?classic">Classic site</a>
+        {NAV.map(([id, label, extra]) => (
+          <a key={id} href={`#${id}`} onClick={go(`#${id}`)} className={extra ? 'is-extra' : undefined}>
+            {label}
+          </a>
+        ))}
       </nav>
     </header>
   )
@@ -125,6 +131,9 @@ export function NavBar() {
 const RAIL = [
   { id: 'top', label: 'Board' },
   { id: 'projects', label: 'Work' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'research', label: 'Research' },
+  { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -135,12 +144,14 @@ export function Rail() {
   const [current, setCurrent] = useState('top')
 
   useEffect(() => {
+    // Absolute page offsets (getBoundingClientRect works inside pinned sections; offsetTop does not).
+    const pageTop = (el) => el.getBoundingClientRect().top + window.scrollY
     const measure = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight
       setPads(
         RAIL.map((s) => {
           const el = document.getElementById(s.id)
-          return { ...s, at: el && max > 0 ? Math.min(1, el.offsetTop / max) : 0 }
+          return { ...s, at: el && max > 0 ? Math.min(1, Math.max(0, pageTop(el) / max)) : 0 }
         }),
       )
     }
@@ -150,22 +161,20 @@ export function Rail() {
       onUpdate: (self) => {
         scrollState.progress = self.progress
         if (fill.current) fill.current.style.transform = `scaleY(${self.progress})`
+        // Current section: the last one whose top has passed the middle of the screen.
+        const mid = window.innerHeight * 0.5
+        let id = RAIL[0].id
+        RAIL.forEach((s) => {
+          const el = document.getElementById(s.id)
+          if (el && el.getBoundingClientRect().top <= mid) id = s.id
+        })
+        if (self.progress > 0.995) id = RAIL[RAIL.length - 1].id
+        setCurrent(id)
       },
       onRefresh: measure,
     })
-    const triggers = RAIL.map((s) =>
-      ScrollTrigger.create({
-        trigger: `#${s.id}`,
-        start: 'top center',
-        end: 'bottom center',
-        onToggle: (self) => self.isActive && setCurrent(s.id),
-      }),
-    )
     measure()
-    return () => {
-      st.kill()
-      triggers.forEach((t) => t.kill())
-    }
+    return () => st.kill()
   }, [])
 
   return (

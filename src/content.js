@@ -36,6 +36,11 @@ export const experience = [
       'Built chart, table and figure generation so local models can parse files and return visual insights.',
     ],
     tags: ['RF-DETR', 'YOLO', 'DINOv2', 'Distillation', 'LLM Agents', 'Azure', 'Kubernetes'],
+    metrics: [
+      { value: 0.91, decimals: 2, label: 'F1 with RF-DETR' },
+      { value: 3, label: 'detector families compressed' },
+      { value: 4, label: 'steps: fine-tune, prune, quantize, distill' },
+    ],
   },
   {
     role: 'Co-Founder & Technical Lead',
@@ -48,6 +53,11 @@ export const experience = [
       'Freelance software and hardware projects, including a production bilingual e-commerce store.',
     ],
     tags: ['ESP32', 'PCB Design', 'KiCad', 'Keyword Spotting', 'TinyML'],
+    metrics: [
+      { value: 97, suffix: '%', label: 'on-device voice model accuracy' },
+      { value: 1, label: 'U.S. patent granted' },
+      { value: 2, label: 'prototype generations' },
+    ],
   },
   {
     role: 'Computer Vision Sub-Team Member',
@@ -59,6 +69,10 @@ export const experience = [
       'Collected, augmented and preprocessed the data, then fine-tuned YOLOv8 to 96% mAP.',
     ],
     tags: ['YOLOv8', 'Data Augmentation', 'Drones'],
+    metrics: [
+      { value: 96, suffix: '%', label: 'mAP with YOLOv8' },
+      { value: 3, suffix: 'rd', label: 'in design, SUAS 2024' },
+    ],
   },
 ]
 
