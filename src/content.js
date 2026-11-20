@@ -325,7 +325,7 @@ export const coreFields = [
     id: 'research',
     name: 'Research',
     color: '#FFB347',
-    tools: ['4 papers', 'U.S. patent', 'Pre-registration'],
+    tools: ['4 papers', 'U.S. patent'],
     practice: ['Experiment design', 'Paired testing', 'Walk-forward CV'],
   },
 ]
