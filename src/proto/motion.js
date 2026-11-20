@@ -12,8 +12,17 @@ export const finePointer = () =>
 export const scrollToTarget = (target) => {
   const el = typeof target === 'string' ? document.querySelector(target) : target
   if (!el) return
-  if (window.__lenis) window.__lenis.scrollTo(el, { duration: 1.4 })
-  else el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' })
+  const lenis = window.__lenis
+  if (lenis) {
+    // The target is measured once at the start; if layout shifts mid-scroll (late fonts,
+    // images, a pin re-measuring), settle onto where the element really is now.
+    lenis.scrollTo(el, {
+      duration: 1.4,
+      onComplete: () => {
+        if (Math.abs(el.getBoundingClientRect().top) > 4) lenis.scrollTo(el, { duration: 0.5 })
+      },
+    })
+  } else el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' })
 }
 
 // Domain colour coding: every card, trace and wipe column uses its domain's colour.
