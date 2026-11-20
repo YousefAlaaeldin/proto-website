@@ -1,5 +1,23 @@
 // Shared motion state and helpers for the prototype.
 
+// Values a scroll timeline hands to a canvas, with one listener told when they change.
+export class Drive {
+  intro = 0
+  scroll = 0
+  #listener = null
+  set(key, value) {
+    if (this[key] === value) return
+    this[key] = value
+    this.#listener?.()
+  }
+  listen(fn) {
+    this.#listener = fn
+    return () => {
+      if (this.#listener === fn) this.#listener = null
+    }
+  }
+}
+
 // Written by the Lenis scroll loop, read by anything that reacts to scroll speed.
 export const scrollState = { velocity: 0, progress: 0 }
 

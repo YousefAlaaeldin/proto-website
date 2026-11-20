@@ -401,10 +401,11 @@ html.has-reticle button {
   text-align: left;
   color: var(--ink);
   font: inherit;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--c) 16%, transparent), rgba(5, 8, 15, 0.82) 60%);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--c) 16%, transparent), transparent 60%),
+    rgba(5, 8, 15, 0.9);
   border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
   border-top: 2px solid var(--c);
-  backdrop-filter: blur(4px);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
 }

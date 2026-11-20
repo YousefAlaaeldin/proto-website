@@ -1,31 +1,32 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { coreFields, hero } from '../content'
 import { Scramble } from './Scramble'
 import SignalTerrain from './SignalTerrain'
-import { reducedMotion } from './motion'
+import { Drive, reducedMotion } from './motion'
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v))
 const span = (p, a, b) => clamp01((p - a) / (b - a))
 
 // A synthwave landscape of signal traces runs to a neon sun. The intro raises the terrain;
 // scrolling flies you forward, sinks the camera and sets the sun, then the copy fades out.
+// The terrain only redraws when the intro, scroll or cursor changes it.
 export default function Hero({ booted, onPickField }) {
   const section = useRef(null)
   const stage = useRef(null)
-  const drive = useRef({ intro: 0, scroll: 0 })
+  const [drive] = useState(() => new Drive())
   const introOn = booted
 
   useEffect(() => {
     const el = stage.current
     if (reducedMotion()) {
-      drive.current.intro = 1
+      drive.set('intro', 1)
       el.style.setProperty('--exit', 0)
       return undefined
     }
     const apply = (p) => {
-      drive.current.scroll = span(p, 0, 0.9)
+      drive.set('scroll', span(p, 0, 0.9))
       el.style.setProperty('--rise', span(p, 0.02, 0.3))
       el.style.setProperty('--exit', span(p, 0.86, 1))
     }
@@ -38,14 +39,15 @@ export default function Hero({ booted, onPickField }) {
       onUpdate: (self) => apply(self.progress),
     })
     return () => st.kill()
-  }, [])
+  }, [drive])
 
   // The terrain rises out of the flat grid once the boot intro hands over.
   useEffect(() => {
     if (!booted || reducedMotion()) return undefined
-    const tween = gsap.to(drive.current, { intro: 1, duration: 2.4, ease: 'power2.out', delay: 0.2 })
+    const state = { v: drive.intro }
+    const tween = gsap.to(state, { v: 1, duration: 2.4, ease: 'power2.out', delay: 0.2, onUpdate: () => drive.set('intro', state.v) })
     return () => tween.kill()
-  }, [booted])
+  }, [booted, drive])
 
   return (
     <section id="top" ref={section} className="hero" aria-label="Introduction">

@@ -85,8 +85,13 @@ export default function ProjectStream({ field, onField }) {
 
       const skew = gsap.quickTo(track.current, '--skew', { duration: 0.4, ease: 'power3' })
       const split = gsap.quickTo(track.current, '--split', { duration: 0.4, ease: 'power3' })
+      // Only touch the track while the scroll speed is changing; at rest it costs nothing.
+      let lastV = 0
       const tick = () => {
-        const v = Math.max(-40, Math.min(40, scrollState.velocity))
+        let v = Math.max(-40, Math.min(40, scrollState.velocity))
+        if (Math.abs(v) < 0.05) v = 0
+        if (v === 0 && lastV === 0) return
+        lastV = v
         skew(v * -0.18)
         split(Math.abs(v) * 0.12)
       }
