@@ -9,7 +9,7 @@ import DataWipe from './DataWipe'
 import ProjectStream from './ProjectStream'
 import Outro from './Outro'
 import { Cursor, NavBar, Rail } from './Chrome'
-import { reducedMotion, scrollState } from './motion'
+import { reducedMotion, scrollState, scrollToTarget } from './motion'
 import './proto.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -28,6 +28,12 @@ function shouldBoot() {
 
 export default function Proto() {
   const [booted, setBooted] = useState(() => !shouldBoot())
+  const [field, setField] = useState('all')
+
+  const pickField = (id) => {
+    setField(id)
+    scrollToTarget('#projects')
+  }
 
   // Smooth scroll, wired into GSAP's ticker so ScrollTrigger and Lenis share one clock.
   useEffect(() => {
@@ -80,9 +86,9 @@ export default function Proto() {
       <Rail />
       {!booted && <Boot onDone={finishBoot} />}
       <main>
-        <Hero booted={booted} />
+        <Hero booted={booted} onPickField={pickField} />
         <DataWipe label="selected work" />
-        <ProjectStream />
+        <ProjectStream field={field} onField={setField} />
         <Outro onReplay={replay} />
       </main>
     </div>

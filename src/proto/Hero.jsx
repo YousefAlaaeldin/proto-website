@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { hero } from '../content'
+import { coreFields, hero } from '../content'
 import { pcb } from './pcbData'
 import { Scramble } from './Scramble'
 import { reducedMotion, scrollState } from './motion'
@@ -12,7 +12,7 @@ const span = (p, a, b) => clamp01((p - a) / (b - a))
 // Scroll flies you forward over the grid while a generated circuit board draws itself
 // from the MCU outward: inner layer, back copper, front copper, vias, then parts.
 // The board is synthetic (scripts/generate-board.mjs), not a real design.
-export default function Hero({ booted }) {
+export default function Hero({ booted, onPickField }) {
   const section = useRef(null)
   const stage = useRef(null)
   const floor = useRef(null)
@@ -99,14 +99,23 @@ export default function Hero({ booted }) {
           <p className="hero__intro">{hero.intro}</p>
         </div>
 
-        <dl className="hero__stats">
-          {hero.stats.map((stat) => (
-            <div key={stat.label}>
-              <dt>{stat.value}</dt>
-              <dd>{stat.label}</dd>
-            </div>
+        <ul className="hero__fields" aria-label="Core skills">
+          {coreFields.map((f) => (
+            <li key={f.id}>
+              <button
+                type="button"
+                className="field-tile"
+                style={{ '--c': f.color }}
+                onClick={() => onPickField(f.id)}
+                data-cursor="Show projects"
+              >
+                <span className="field-tile__name">{f.name}</span>
+                <span className="field-tile__tools">{f.tools.join(' / ')}</span>
+                <span className="field-tile__practice">{f.practice.join(', ')}</span>
+              </button>
+            </li>
           ))}
-        </dl>
+        </ul>
 
         <figure className="hero__board">
           <figcaption className="hero__caption">

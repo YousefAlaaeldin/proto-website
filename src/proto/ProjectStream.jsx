@@ -1,22 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { featuredProjects, moreProjects } from '../content'
+import { coreFields, streamProjects } from '../content'
 import CardVisual from './CardVisual'
 import { Scramble } from './Scramble'
-import { domainColor, reducedMotion, scrollState } from './motion'
+import { reducedMotion, scrollState } from './motion'
 
-const projects = [...featuredProjects, ...moreProjects.slice(0, 4)]
+const fieldById = Object.fromEntries(coreFields.map((f) => [f.id, f]))
+const NEUTRAL = '#7FA8B8'
 
 function Card({ project, index }) {
   const [hovered, setHovered] = useState(0)
-  const color = domainColor[project.category] ?? '#4FE3F0'
+  const color = fieldById[project.fields[0]]?.color ?? NEUTRAL
+  const fieldNames = project.fields.length ? project.fields.map((id) => fieldById[id].name).join(' + ') : 'Apps'
   return (
     <article
       className="card"
       style={{ '--c': color }}
       onPointerEnter={() => setHovered((n) => n + 1)}
-      data-cursor={project.link ? 'Open repo' : 'Private'}
+      data-cursor={project.link ? 'Open repo' : 'Not public'}
     >
       <div className="card__visual">
         <CardVisual project={project} color={color} />
@@ -24,7 +26,7 @@ function Card({ project, index }) {
       </div>
       <div className="card__body">
         <p className="card__meta">
-          <span>{project.category}</span>
+          <span>{fieldNames}</span>
           <span>{String(index + 1).padStart(2, '0')}</span>
         </p>
         <h3 className="card__title">
@@ -48,25 +50,28 @@ function Card({ project, index }) {
 
 // Vertical scroll drives the strip sideways while the section is pinned.
 // Scroll speed skews the cards and splits their colour channels.
-export default function ProjectStream() {
+// The field buttons narrow the strip to one discipline.
+export default function ProjectStream({ field, onField }) {
   const section = useRef(null)
   const track = useRef(null)
   const bar = useRef(null)
+  const pinRef = useRef(null)
   const [titleOn, setTitleOn] = useState(false)
 
+  const visible = field === 'all' ? streamProjects : streamProjects.filter((p) => p.fields.includes(field))
+
   useEffect(() => {
-    const reduced = reducedMotion()
     const mm = gsap.matchMedia()
 
     mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-      const distance = () => track.current.scrollWidth - window.innerWidth + 64
-      gsap.to(track.current, {
+      const distance = () => Math.max(0, track.current.scrollWidth - window.innerWidth + 64)
+      const tween = gsap.to(track.current, {
         x: () => -distance(),
         ease: 'none',
         scrollTrigger: {
           trigger: section.current,
           start: 'top top',
-          end: () => `+=${distance()}`,
+          end: () => `+=${Math.max(1, distance())}`,
           pin: true,
           scrub: 0.8,
           invalidateOnRefresh: true,
@@ -76,6 +81,7 @@ export default function ProjectStream() {
           },
         },
       })
+      pinRef.current = tween.scrollTrigger
 
       const skew = gsap.quickTo(track.current, '--skew', { duration: 0.4, ease: 'power3' })
       const split = gsap.quickTo(track.current, '--split', { duration: 0.4, ease: 'power3' })
@@ -85,18 +91,33 @@ export default function ProjectStream() {
         split(Math.abs(v) * 0.12)
       }
       gsap.ticker.add(tick)
-      return () => gsap.ticker.remove(tick)
+      return () => {
+        gsap.ticker.remove(tick)
+        pinRef.current = null
+      }
     })
 
-    if (reduced || window.innerWidth < 900) {
-      const st = ScrollTrigger.create({ trigger: section.current, start: 'top 70%', once: true, onEnter: () => setTitleOn(true) })
-      return () => {
-        st.kill()
-        mm.revert()
-      }
+    const st = ScrollTrigger.create({ trigger: section.current, start: 'top 70%', once: true, onEnter: () => setTitleOn(true) })
+    return () => {
+      st.kill()
+      mm.revert()
     }
-    return () => mm.revert()
   }, [])
+
+  // When the field changes: re-measure the strip, return to its start, and bring the cards in.
+  useEffect(() => {
+    const cards = track.current.querySelectorAll('.card')
+    if (!reducedMotion()) {
+      gsap.fromTo(cards, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.05, ease: 'power3.out' })
+    }
+    track.current.parentElement.scrollLeft = 0
+    ScrollTrigger.refresh()
+    const st = pinRef.current
+    if (st && window.scrollY > st.start + 2) {
+      if (window.__lenis) window.__lenis.scrollTo(st.start, { duration: 0.8 })
+      else window.scrollTo(0, st.start)
+    }
+  }, [field])
 
   return (
     <section id="projects" ref={section} className="stream" aria-labelledby="stream-title">
@@ -104,19 +125,27 @@ export default function ProjectStream() {
         <h2 id="stream-title" className="stream__title">
           <Scramble text="Selected work" play={titleOn} duration={700} />
         </h2>
-        <ul className="stream__legend" aria-label="Colour key">
-          {Object.entries(domainColor)
-            .filter(([k]) => k !== 'Game Dev')
-            .map(([k, c]) => (
-              <li key={k} style={{ '--c': c }}>
-                {k}
-              </li>
-            ))}
-        </ul>
+        <div className="stream__filters" role="group" aria-label="Filter projects by field">
+          <button type="button" className={`chip ${field === 'all' ? 'is-on' : ''}`} aria-pressed={field === 'all'} onClick={() => onField('all')}>
+            All <span className="chip__count">{streamProjects.length}</span>
+          </button>
+          {coreFields.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className={`chip ${field === f.id ? 'is-on' : ''}`}
+              style={{ '--c': f.color }}
+              aria-pressed={field === f.id}
+              onClick={() => onField(f.id)}
+            >
+              {f.name} <span className="chip__count">{streamProjects.filter((p) => p.fields.includes(f.id)).length}</span>
+            </button>
+          ))}
+        </div>
       </header>
       <div className="stream__viewport">
         <div ref={track} className="stream__track">
-          {projects.map((project, index) => (
+          {visible.map((project, index) => (
             <Card key={project.title} project={project} index={index} />
           ))}
         </div>

@@ -296,3 +296,106 @@ export const contact = {
   linkedin: 'https://www.linkedin.com/in/yousef-abdou/',
   github: GH,
 }
+
+// ---------- Redesign: core fields and the project stream ----------
+
+export const coreFields = [
+  {
+    id: 'ml',
+    name: 'Machine Learning',
+    color: '#FF2A6D',
+    tools: ['PyTorch', 'TensorFlow', 'XGBoost', 'Transformers'],
+    practice: ['Quantization', 'Distillation', 'LLM agents', 'Time series'],
+  },
+  {
+    id: 'hardware',
+    name: 'Hardware',
+    color: '#4FE3F0',
+    tools: ['ESP32', 'ESP-IDF', 'KiCad', 'SPICE'],
+    practice: ['PCB design', 'Firmware', 'Edge AI', 'FreeRTOS'],
+  },
+  {
+    id: 'cv',
+    name: 'Computer Vision',
+    color: '#9C8CFF',
+    tools: ['YOLO', 'RF-DETR', 'DINOv2', 'TensorRT'],
+    practice: ['Object detection', 'Pruning', 'ONNX', 'Benchmarking'],
+  },
+  {
+    id: 'research',
+    name: 'Research',
+    color: '#FFB347',
+    tools: ['4 papers', 'U.S. patent', 'Pre-registration'],
+    practice: ['Experiment design', 'Paired testing', 'Walk-forward CV'],
+  },
+]
+
+const extraWork = [
+  {
+    title: 'Traffic-Safety Detection',
+    summary:
+      'At TatweerMEA: fine-tuned, pruned, quantized and distilled YOLO, RF-DETR and DINOv2 for a real-time traffic-safety system, benchmarked across camera qualities and day/night conditions.',
+    highlight: '0.91 F1 with RF-DETR · deployed on Kubernetes and Azure',
+    stack: 'RF-DETR, YOLO, DINOv2, Distillation',
+    status: 'Industry work',
+    category: 'AI/ML',
+  },
+  {
+    title: 'Detection-Transformer Error Localization',
+    summary:
+      'Finding which part of a detection transformer causes its errors on traffic scenes, then retraining only that part instead of the whole network.',
+    highlight: 'First author · submitted to IEEE IV 2027',
+    stack: 'DETR, PyTorch',
+    status: 'Paper',
+    category: 'AI/ML',
+  },
+  {
+    title: 'Sharing the Edge',
+    summary: 'Running several neural workloads at the same time on a single microcontroller inside the Smart Vent.',
+    highlight: 'First author · accepted at AHFE 2026',
+    stack: 'TinyML, ESP32, Keyword spotting',
+    status: 'Paper',
+    category: 'Hardware',
+  },
+]
+
+const FIELDS = {
+  'Smart Vent v2': ['hardware'],
+  'Traffic-Safety Detection': ['cv', 'ml'],
+  'Real-Time Structural Break Detection': ['ml', 'research'],
+  'AI World': ['ml', 'research'],
+  'Detection-Transformer Error Localization': ['cv', 'research'],
+  'Machine Agent': ['ml'],
+  'Sharing the Edge': ['hardware', 'ml', 'research'],
+  'DataCrunch 2': ['ml'],
+  'YOLOv8 Object Detection': ['cv', 'ml'],
+  'Throat-Mic Comms': ['hardware'],
+  'Synth Volatility Tracker': ['ml'],
+  'Quantum Circuit Compilation': ['research'],
+  'NFL Big Data Bowl 2027': ['research', 'ml'],
+  'tiny-gpu (fork)': ['hardware'],
+}
+
+const STREAM_ORDER = [
+  'Smart Vent v2',
+  'Traffic-Safety Detection',
+  'Real-Time Structural Break Detection',
+  'AI World',
+  'Detection-Transformer Error Localization',
+  'School Bus Safety Tracker',
+  'Machine Agent',
+  'Sharing the Edge',
+  'DataCrunch 2',
+  'YOLOv8 Object Detection',
+  'Tefa Care',
+  'Throat-Mic Comms',
+  'Synth Volatility Tracker',
+  'Quantum Circuit Compilation',
+  'NFL Big Data Bowl 2027',
+  'tiny-gpu (fork)',
+]
+
+const allWork = [...featuredProjects, ...extraWork, ...moreProjects]
+export const streamProjects = STREAM_ORDER.map((title) => allWork.find((p) => p.title === title))
+  .filter(Boolean)
+  .map((p) => ({ ...p, fields: FIELDS[p.title] ?? [] }))

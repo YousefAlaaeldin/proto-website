@@ -411,39 +411,64 @@ html.has-reticle button {
   transform: translateY(10px);
   transition: opacity 0.8s ease 1s, transform 0.8s ease 1s;
 }
-.hero__stats {
-  position: absolute;
-  z-index: 2;
-  left: clamp(16px, 6vw, 96px);
-  top: calc(68% + 22px);
-  width: min(620px, 46vw);
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-  margin: 0;
-  background: rgba(5, 8, 15, 0.72);
-  backdrop-filter: blur(4px);
-  opacity: 0;
-  transition: opacity 0.8s ease 1.3s;
-}
-.hero__stage.is-on .hero__intro,
-.hero__stage.is-on .hero__stats {
+.hero__stage.is-on .hero__intro {
   opacity: calc(1 - var(--exit));
   transform: none;
 }
-.hero__stats div {
-  padding: 10px 14px;
-  border-left: 1px solid var(--cyan);
-  background: linear-gradient(90deg, rgba(79, 227, 240, 0.1), transparent);
+.hero__fields {
+  position: absolute;
+  z-index: 2;
+  left: clamp(16px, 6vw, 96px);
+  right: clamp(16px, 5vw, 80px);
+  top: calc(68% + 20px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.3s;
 }
-.hero__stats dt {
+.hero__stage.is-on .hero__fields {
+  opacity: calc(1 - var(--exit));
+}
+.field-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 14px 16px 16px;
+  text-align: left;
+  color: var(--ink);
+  font: inherit;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--c) 16%, transparent), rgba(5, 8, 15, 0.82) 60%);
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-top: 2px solid var(--c);
+  backdrop-filter: blur(4px);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+}
+.field-tile:hover,
+.field-tile:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--c) 35%, transparent);
+}
+.field-tile__name {
   font-family: var(--display);
+  font-weight: 600;
   font-size: 19px;
-  color: var(--cyan);
+  color: var(--c);
 }
-.hero__stats dd {
-  margin: 2px 0 0;
+.field-tile__tools {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.field-tile__practice {
   font-size: 13px;
+  line-height: 1.45;
   color: var(--muted);
 }
 
@@ -616,6 +641,37 @@ html.has-reticle button {
   font-family: var(--display);
   font-weight: 600;
   font-size: clamp(40px, 5vw, 72px);
+}
+.stream__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chip {
+  --c: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--c) 50%, transparent);
+  color: var(--ink);
+  font: 500 15px var(--body);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: background 0.2s, color 0.2s;
+}
+.chip:hover {
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+}
+.chip.is-on {
+  background: var(--c);
+  color: #05080f;
+}
+.chip__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  opacity: 0.75;
 }
 .stream__legend {
   display: flex;
@@ -907,14 +963,29 @@ html.has-reticle button {
     width: auto;
     right: 16px;
   }
-  .hero__stats {
+  .hero__fields {
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    padding: 0 16px 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+  }
+  .hero__fields::-webkit-scrollbar {
     display: none;
+  }
+  .hero__fields li {
+    flex: 0 0 72vw;
+    scroll-snap-align: start;
   }
   .hero__board {
     left: 16px;
     right: 16px;
     top: auto;
-    bottom: 6vh;
+    bottom: calc(32% + 8px);
     width: auto;
     transform: none;
   }

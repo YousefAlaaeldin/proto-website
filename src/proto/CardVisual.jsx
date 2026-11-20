@@ -25,6 +25,10 @@ const KIND = {
   'Quantum Circuit Compilation': { kind: 'wires' },
   'NFL Big Data Bowl 2027': { kind: 'tracks' },
   'tiny-gpu (fork)': { kind: 'die' },
+  'Traffic-Safety Detection': { kind: 'boxes' },
+  'Detection-Transformer Error Localization': { kind: 'boxes' },
+  'YOLOv8 Object Detection': { kind: 'boxes' },
+  'Sharing the Edge': { kind: 'die' },
 }
 
 function Art({ kind, r, c }) {
@@ -110,6 +114,31 @@ function Art({ kind, r, c }) {
         </g>
       )
     })
+  }
+  if (kind === 'boxes') {
+    // detection boxes with confidence tags over a faint scene grid
+    return (
+      <>
+        {Array.from({ length: 9 }, (_, i) => (
+          <line key={`g${i}`} x1="0" x2={W} y1={20 * i + 10} y2={20 * i + 10} stroke={c} strokeOpacity="0.08" />
+        ))}
+        {Array.from({ length: 5 }, (_, i) => {
+          const w = 40 + r() * 70
+          const h = 30 + r() * 60
+          const x = 10 + r() * (W - w - 20)
+          const y = 18 + r() * (H - h - 26)
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={w} height={h} fill={c} fillOpacity="0.06" stroke={c} strokeWidth="1.5" />
+              <rect x={x} y={y - 11} width="34" height="11" fill={c} />
+              <text x={x + 3} y={y - 2.5} fontSize="8" fontFamily="monospace" fill="#05080F">
+                {(0.7 + r() * 0.29).toFixed(2)}
+              </text>
+            </g>
+          )
+        })}
+      </>
+    )
   }
   if (kind === 'die') {
     return Array.from({ length: 8 * 4 }, (_, i) => (
