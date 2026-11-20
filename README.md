@@ -2,8 +2,26 @@
 
 Source for [thetechpolymath.net](https://thetechpolymath.net), Yousef Abdou's portfolio.
 
-React 19 + Vite + Tailwind 4, animated with framer-motion and GSAP, plus a canvas PCB-trace background.
+A single-page site in a light-grid, neon-HUD style: a boot intro, a generated circuit board that powers up as you scroll, a horizontal project stream filtered by field, a pinned experience timeline, research, and a six-core "chip" of skills.
 
-- **Edit content:** everything (experience, projects, publications, skills) lives in [`src/content.js`](src/content.js).
-- **Run locally:** `npm install && npm run dev`
-- **Build:** `npm run build`
+Built with React 19 and Vite. Motion uses GSAP with ScrollTrigger and Lenis smooth scrolling, and every animation has a reduced-motion fallback.
+
+## Editing
+
+- **Content:** experience, projects, publications, skills and contact details all live in [`src/content.js`](src/content.js).
+- **Sections:** one component per section in [`src/proto/`](src/proto). Styles are in `proto.css` and `sections.css`.
+- **Hero board:** the circuit board is synthetic, not a real design. Regenerate it with `node scripts/generate-board.mjs [seed]`, which writes `src/proto/pcbData.js`.
+- **Replay the intro:** add `?boot` to the URL. Otherwise it plays once per browser session.
+
+## Run
+
+```bash
+npm install
+npm run dev     # local dev server
+npm run build   # production build in dist/
+npm run lint
+```
+
+## Deploy
+
+Vercel builds and deploys every push to `main` to production. Pushes to other branches get a preview URL.
